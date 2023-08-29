@@ -101,6 +101,47 @@ void imprimir () {
 	}
 }
 
+int remover (int numero) {
+	
+	struct diretor *diretorCerto = procurarDiretor(numero % MODULO);
+	
+	struct no *ponteiroAnterior;
+	struct no *ponteiroExcluir;
+	
+	if (diretorCerto -> proximoNo != NULL) {
+			
+		if (diretorCerto -> proximoNo -> numero == numero) {
+				
+			ponteiroExcluir = diretorCerto -> proximoNo;
+			diretorCerto -> proximoNo = ponteiroExcluir -> proximoNo;
+				
+			free(ponteiroExcluir);
+				
+		} else {
+				
+			ponteiroAnterior = diretorCerto -> proximoNo;
+				
+			while ((ponteiroAnterior -> proximoNo != NULL) && 
+					(ponteiroAnterior -> proximoNo -> numero != numero)) {
+									
+					ponteiroAnterior = ponteiroAnterior -> proximoNo;
+					
+			}
+				
+			if (ponteiroAnterior -> proximoNo != NULL) {
+					
+				ponteiroExcluir = ponteiroAnterior -> proximoNo;
+				ponteiroAnterior -> proximoNo = ponteiroExcluir -> proximoNo;
+					
+				free(ponteiroExcluir);
+				
+			}
+		}	
+	}
+	
+	
+}
+
 int main () {
 
 	int i;
@@ -111,6 +152,11 @@ int main () {
 		
 	}
 	
+	imprimir();
+	
+	remover(4);
+	remover(100);
+
 	imprimir();
 
 }
